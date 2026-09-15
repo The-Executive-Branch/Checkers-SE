@@ -26,13 +26,14 @@ This project simulates the American Checkers board game, allowing a user to play
 
 ## Architecture
 
-The server is authoritative: it owns and validates all game state, so the client never computes rules itself. The client (React) sends move attempts over WebSocket and renders whatever board state the server sends back. This keeps both players' boards from ever desyncing, and gives the Sprint 3 computer opponent a natural home; it's just another "player" whose moves the server computes instead of receiving over the socket.
+The server is authoritative: it owns and validates all game state, so the client never computes rules itself. The client (Electron + React) sends move attempts over WebSocket and renders whatever board state the server sends back. This keeps both players' boards from ever desyncing, and gives the Sprint 3 computer opponent a natural home; it's just another "player" whose moves the server computes instead of receiving over the socket.
 
 ## Tech Stack
 
 | Component | Choice |
 |---|---|
 | Language | TypeScript |
+| Client shell | Electron |
 | Client UI | React |
 | Server | Node.js + WebSocket (`ws`) |
 | Unit test framework | Jest |
@@ -52,12 +53,10 @@ The project is developed across one planning phase and three sprints:
 
 **Prerequisites:** [Node.js](https://nodejs.org/) (includes npm)
 
-### React Frontend
-
 ```bash
 # Clone the repo
 git clone git@github.com:The-Executive-Branch/Checkers-SE.git
-cd Checkers-SE && cd webapp
+cd Checkers-SE
 
 # Install dependencies (installs for client, server, and shared packages)
 npm install
@@ -68,8 +67,11 @@ npm test
 # Run tests with coverage
 npm test -- --coverage
 
-# Start the Client UI
-npm run start
+# Start the server
+npm run start --workspace=server
+
+# In a separate terminal, start the Electron client
+npm run start --workspace=client
 ```
 
 ## Development Workflow
