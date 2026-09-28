@@ -10,7 +10,7 @@ This project simulates the American Checkers board game, allowing a user to play
 
 - **Team name:** The Executive Branch
 - **Coordinator:** Blake Trott
-- **Members:** Donte Littlejohn, Blake Trott, Israel Thompson, Charles Smith
+- **Members:** Donte Littlejohn, Blake Trott, Israel Thompson, Joseph Smith
 
 ## Features
 
