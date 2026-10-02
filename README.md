@@ -15,12 +15,14 @@ This project simulates the American Checkers board game, allowing a user to play
 ## Features
 
 **Core requirements:**
+
 - Playable via a graphical user interface
 - Play against another user or a computer opponent, with rules enforced strictly
 - Game recording (date, time, and all moves)
 - Replay of a completed game, step by step (forward and backward)
 
 **Optional (extra credit):**
+
 - User account management (registration, login) backed by a SQL or NoSQL database
 - Secure password storage (passwords stored encrypted, not in plaintext)
 
@@ -30,15 +32,15 @@ The server is authoritative: it owns and validates all game state, so the client
 
 ## Tech Stack
 
-| Component | Choice |
-|---|---|
-| Language | TypeScript |
-| Client shell | Electron |
-| Client UI | React |
-| Server | Node.js + WebSocket (`ws`) |
-| Unit test framework | Jest |
-| Code coverage tool | Jest (built-in, via `--coverage`) |
-| IDE | Visual Studio Code |
+| Component           | Choice                            |
+| ------------------- | --------------------------------- |
+| Language            | TypeScript                        |
+| Client shell        | Electron                          |
+| Client UI           | React                             |
+| Server              | Node.js + WebSocket (`ws`)        |
+| Unit test framework | Jest                              |
+| Code coverage tool  | Jest (built-in, via `--coverage`) |
+| IDE                 | Visual Studio Code                |
 
 ## Roadmap
 
