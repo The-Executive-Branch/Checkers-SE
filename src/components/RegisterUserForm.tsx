@@ -159,9 +159,9 @@ const RegisterUserForm = ({ onSuccess }: RegisterUserFormProps) => {
         : !emailRef.current?.validity.valid
           ? "Enter a valid email address, like name@example.com."
           : "",
-      username: /^\w{3,20}$/.test(inputs.username)
+      username: /^\w{3,30}$/.test(inputs.username)
         ? ""
-        : "Use 3 to 20 letters, numbers, or underscores.",
+        : "Use 3 to 30 letters, numbers, or underscores.",
       password: isPasswordValid
         ? ""
         : "Password must include uppercase and lowercase letters, a number, and a special character.",
