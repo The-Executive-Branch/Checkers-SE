@@ -1,0 +1,33 @@
+button {
+  min-height: 50px;
+  min-width: 140px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+  &:active:not(:disabled) {
+    filter: brightness(0.9);
+  }
+  &:focus-visible {
+    outline: 3px solid gold;
+    outline-offset: 2px;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background-color: purple;
+}
+.secondary {
+  background-color: gray;
+}
+.danger {
+  background-color: firebrick;
+}
