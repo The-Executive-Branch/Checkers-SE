@@ -30,8 +30,10 @@ const LoginUserForm = ({ onSuccess }: LoginUserFormProps) => {
   const [formError, setFormError] = useState<string>("");
 
   const usernameRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
-    usernameRef?.current?.focus();
+    usernameRef.current?.focus();
   }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +43,14 @@ const LoginUserForm = ({ onSuccess }: LoginUserFormProps) => {
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isLoading) return;
+
+    if (!inputs.username.trim() || !inputs.password.trim()) {
+      setFormError("Enter your username and password.");
+      const emptyField = inputs.username.trim() ? passwordRef : usernameRef;
+      emptyField.current?.focus();
+      return;
+    }
+
     setIsLoading(true);
     setFormError("");
 
@@ -54,7 +64,8 @@ const LoginUserForm = ({ onSuccess }: LoginUserFormProps) => {
 
       const { error } = response.data;
       setFormError(error);
-    } catch (error) {
+      setInputs((prevState) => ({ ...prevState, password: "" }));
+    } catch {
       setFormError(
         "Couldn't reach the server. Check your connection and try again.",
       );
@@ -64,7 +75,7 @@ const LoginUserForm = ({ onSuccess }: LoginUserFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate>
       <header>
         <h1>Welcome back!</h1>
       </header>
@@ -83,6 +94,7 @@ const LoginUserForm = ({ onSuccess }: LoginUserFormProps) => {
           id="passwordInput"
           name="password"
           type="password"
+          ref={passwordRef}
           value={inputs.password}
           onChange={handleInputChange}
           required
