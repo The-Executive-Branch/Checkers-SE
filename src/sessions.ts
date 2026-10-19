@@ -25,7 +25,7 @@ const saveSession = (session: UserAccessResponse) => {
   localStorage.setItem("session", JSON.stringify(session));
 };
 
-const loadSession = (): Session | null => {
+export const loadSession = (): Session | null => {
   const session = localStorage.getItem("session");
   if (!session) return null;
 
