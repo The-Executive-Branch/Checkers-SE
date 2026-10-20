@@ -1,4 +1,3 @@
-/* UserAccessModal.module.css */
 .modal {
   margin: auto;
   border: none;
@@ -6,11 +5,11 @@
   padding: 2rem;
   width: min(500px, 90vw);
 
-  form {
+  & form {
     width: 100%;
   }
 
-  ::backdrop {
+  &::backdrop {
     background: rgb(0 0 0 / 0.6);
   }
 }
