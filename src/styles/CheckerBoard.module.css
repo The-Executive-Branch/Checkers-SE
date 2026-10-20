@@ -1,0 +1,34 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: min(90vmin, 640px);
+  aspect-ratio: 1;
+  border: 8px solid #5a3a1e;
+}
+
+.square {
+  border: none;
+  padding: 0;
+}
+
+.light {
+  background: #f0d9b5;
+}
+.dark {
+  background: #8b5a2b;
+}
+
+button.square:enabled {
+  cursor: pointer;
+}
+
+button.square:focus-visible {
+  outline: 3px solid white;
+  outline-offset: -3px;
+}
+
+.cell {
+  display: grid;
+  place-items: center;
+}
