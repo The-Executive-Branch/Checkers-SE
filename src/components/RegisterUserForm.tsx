@@ -125,10 +125,10 @@ const RegisterUserForm = ({ onSuccess }: RegisterUserFormProps) => {
   const checkUsernameAvailability = async () => {
     const username = inputs.username;
 
-    if (!/^\w{3,20}$/.test(username)) {
+    if (!/^\w{3,30}$/.test(username)) {
       setValidationMessage((prevState) => ({
         ...prevState,
-        username: "Use 3 to 20 letters, numbers, or underscores.",
+        username: "Use 3 to 30 letters, numbers, or underscores.",
       }));
       return;
     }
