@@ -96,7 +96,9 @@ describe("RegisterUserForm", () => {
     await user.click(submitButton());
 
     expect(mockedRegisterUser).not.toHaveBeenCalled();
-    expect(field.confirmPassword()).toHaveAccessibleDescription("Passwords must match.");
+    expect(field.confirmPassword()).toHaveAccessibleDescription(
+      "Passwords must match.",
+    );
   });
 
   it("says the username is taken when the player leaves the field", async () => {
@@ -107,7 +109,9 @@ describe("RegisterUserForm", () => {
     await user.type(field.username(), "taken_name");
     await user.tab();
 
-    expect(await screen.findByText(/That username is taken/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/That username is taken/),
+    ).toBeInTheDocument();
   });
 
   it("shows nothing when the username is free", async () => {
@@ -129,7 +133,7 @@ describe("RegisterUserForm", () => {
     await user.tab();
 
     expect(field.username()).toHaveAccessibleDescription(
-      "Use 3 to 20 letters, numbers, or underscores.",
+      "Use 3 to 30 letters, numbers, or underscores.",
     );
     expect(mockedRequest).not.toHaveBeenCalled();
   });
@@ -146,7 +150,9 @@ describe("RegisterUserForm", () => {
     await fillForm(user);
     await user.click(submitButton());
 
-    expect(field.email()).toHaveAccessibleDescription("That email is already registered.");
+    expect(field.email()).toHaveAccessibleDescription(
+      "That email is already registered.",
+    );
   });
 
   it("shows a server error that names no field in the form's general message area", async () => {
@@ -161,7 +167,9 @@ describe("RegisterUserForm", () => {
     await fillForm(user);
     await user.click(submitButton());
 
-    expect(await screen.findByText("Something went wrong.")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Something went wrong."),
+    ).toBeInTheDocument();
   });
 
   it("tells the app when registration succeeds", async () => {

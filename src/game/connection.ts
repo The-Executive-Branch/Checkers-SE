@@ -1,12 +1,9 @@
-import type {
-  ClientGameMessage,
-  ServerGameMessage,
-} from "checkers-shared-types";
+import type { ClientMessage, ServerMessage } from "checkers-shared-types";
 
-export type GameMessageHandler = (message: ServerGameMessage) => void;
+export type GameMessageHandler = (message: ServerMessage) => void;
 
 export type GameConnection = {
-  send: (message: ClientGameMessage) => void;
+  send: (message: ClientMessage) => void;
   onMessage: (handler: GameMessageHandler) => () => void;
   close: () => void;
 };

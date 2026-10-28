@@ -1,10 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 import { act, renderHook } from "@testing-library/react";
-import type { GameId, ServerGameMessage } from "checkers-shared-types";
+import type { GameId, ServerMessage } from "checkers-shared-types";
 import type { GameConnection, GameMessageHandler } from "@/game/connection";
 import { useGame } from "@/hooks/useGame";
 
 const GAME_ID = "game-1" as GameId;
+
+type GameStateMessage = Extract<ServerMessage, { type: "gameState" }>;
 
 // A stand-in connection the test controls directly.
 const createTestConnection = () => {
@@ -18,16 +20,21 @@ const createTestConnection = () => {
     }),
     close: vi.fn(),
   };
-  const receive = (message: ServerGameMessage) => act(() => handler?.(message));
+  const receive = (message: ServerMessage) => act(() => handler?.(message));
   return { connection, receive, unsubscribe };
 };
 
-const startGame: ServerGameMessage = {
+const startGame: GameStateMessage = {
   type: "gameState",
   gameId: GAME_ID,
   pieces: [{ id: "red-5-0", color: "red", row: 5, col: 0, isKing: false }],
   playerTurn: "red",
   playerColor: "red",
+  mode: "online",
+  players: {
+    red: { kind: "user", username: "player_one" },
+    black: { kind: "guest", name: "Opponent" },
+  },
   status: { state: "inProgress" },
 };
 
@@ -99,5 +106,30 @@ describe("useGame", () => {
     unmount();
 
     expect(unsubscribe).toHaveBeenCalledTimes(1);
+  });
+
+  it("follows the turn in a local game", () => {
+    const { connection, receive } = createTestConnection();
+    const { result } = renderHook(() => useGame(connection));
+
+    receive({
+      ...startGame,
+      mode: "local",
+      playerColor: "both",
+      playerTurn: "black",
+    });
+
+    expect(result.current.controlledColor).toBe("black");
+    expect(result.current.isPlayerTurn).toBe(true);
+  });
+
+  it("keeps the player's own color in an online game", () => {
+    const { connection, receive } = createTestConnection();
+    const { result } = renderHook(() => useGame(connection));
+
+    receive({ ...startGame, playerTurn: "black" });
+
+    expect(result.current.controlledColor).toBe("red");
+    expect(result.current.isPlayerTurn).toBe(false);
   });
 });
