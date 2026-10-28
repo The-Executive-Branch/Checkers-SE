@@ -4,26 +4,27 @@ import type {
   GameId,
   GameStatus,
   Position,
-  ServerGameMessage,
+  ServerMessage,
 } from "checkers-shared-types";
 
 export type BoardPiece = CheckerPiece & { isJumped: boolean };
 
-type MoveRejected = Extract<ServerGameMessage, { type: "moveRejected" }>;
+type MoveRejected = Extract<ServerMessage, { type: "moveRejected" }>;
+type GameStateMessage = Extract<ServerMessage, { type: "gameState" }>;
 
 export type GameState = {
   gameId: GameId | null;
   pieces: BoardPiece[];
   turn: CheckerColor;
-  playerColor: CheckerColor;
+  playerColor: CheckerColor | "both";
   status: GameStatus;
   mustJumpFrom: Position | null;
   lastRejection: MoveRejected | null;
+  mode: GameStateMessage["mode"];
+  players: GameStateMessage["players"] | null;
 };
 
-export type GameAction =
-  | ServerGameMessage
-  | { type: "removePiece"; id: string };
+export type GameAction = ServerMessage | { type: "removePiece"; id: string };
 
 export const INITIAL_GAME_STATE: GameState = {
   gameId: null,
@@ -33,6 +34,8 @@ export const INITIAL_GAME_STATE: GameState = {
   status: { state: "waiting" },
   mustJumpFrom: null,
   lastRejection: null,
+  mode: "online",
+  players: null,
 };
 
 export const samePosition = (a: Position, b: Position) =>
@@ -49,6 +52,8 @@ export const gameReducer = (
     };
   }
 
+  if (!("gameId" in action)) return state;
+
   // Every server message has a gameId. Ignore ones for another game.
   if (state.gameId !== null && action.gameId !== state.gameId) {
     return state;
@@ -64,6 +69,8 @@ export const gameReducer = (
         status: action.status,
         mustJumpFrom: null,
         lastRejection: null,
+        mode: action.mode,
+        players: action.players,
       };
 
     case "moveResult": {
@@ -94,5 +101,8 @@ export const gameReducer = (
 
     case "moveRejected":
       return { ...state, lastRejection: action };
+
+    default:
+      return state;
   }
 };

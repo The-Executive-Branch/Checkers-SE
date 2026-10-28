@@ -11,8 +11,11 @@ export const useGame = (connection: GameConnection) => {
     return unsubscribe;
   }, [connection]);
 
+  const controlledColor =
+    state.playerColor === "both" ? state.turn : state.playerColor;
+
   const isPlayerTurn =
-    state.status.state === "inProgress" && state.turn === state.playerColor;
+    state.status.state === "inProgress" && state.turn === controlledColor;
 
   const makeMove = (from: Position, to: Position) => {
     if (state.gameId === null) return;
@@ -23,5 +26,5 @@ export const useGame = (connection: GameConnection) => {
     dispatch({ type: "removePiece", id });
   };
 
-  return { ...state, isPlayerTurn, makeMove, removePiece };
+  return { ...state, isPlayerTurn, controlledColor, makeMove, removePiece };
 };

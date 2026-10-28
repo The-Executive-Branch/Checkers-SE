@@ -1,12 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ServerGameMessage } from "checkers-shared-types";
+import type { ServerMessage } from "checkers-shared-types";
 import { createFakeConnection } from "@/game/fakeConnection";
 
 describe("createFakeConnection", () => {
   it("sends a starting position with 12 pieces per side on the dark squares of their first three rows", () => {
     vi.useFakeTimers();
     const connection = createFakeConnection();
-    const handler = vi.fn<(message: ServerGameMessage) => void>();
+    const handler = vi.fn<(message: ServerMessage) => void>();
 
     connection.onMessage(handler);
     vi.runOnlyPendingTimers();

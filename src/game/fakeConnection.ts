@@ -4,7 +4,7 @@ import type {
   GameId,
   GameStatus,
   Position,
-  ServerGameMessage,
+  ServerMessage,
 } from "checkers-shared-types";
 import type { GameConnection, GameMessageHandler } from "./connection";
 import { samePosition } from "./gameReducer";
@@ -47,7 +47,7 @@ export const createFakeConnection = () => {
   let turn: CheckerColor = "red";
   let nextMove: NextMoveOptions = {};
 
-  const emit = (message: ServerGameMessage) => {
+  const emit = (message: ServerMessage) => {
     setTimeout(() => handlers.forEach((handler) => handler(message)), DELAY_MS);
   };
 
@@ -102,7 +102,10 @@ export const createFakeConnection = () => {
   };
 
   const connection: GameConnection = {
-    send({ from, to }) {
+    send(message) {
+      if (message.type !== "move") return;
+      const { from, to } = message;
+
       const options = nextMove;
       nextMove = {};
 
@@ -131,6 +134,11 @@ export const createFakeConnection = () => {
         playerTurn: PLAYER_COLOR,
         playerColor: PLAYER_COLOR,
         status: IN_PROGRESS,
+        mode: "online",
+        players: {
+          red: { kind: "user", username: "you" },
+          black: { kind: "guest", name: "Fake opponent" },
+        },
       });
       return () => {
         handlers.delete(handler);

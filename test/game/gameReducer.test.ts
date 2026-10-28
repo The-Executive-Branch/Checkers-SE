@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { GameId, ServerGameMessage } from "checkers-shared-types";
+import type { GameId, ServerMessage } from "checkers-shared-types";
 import {
   gameReducer,
   INITIAL_GAME_STATE,
@@ -35,8 +35,8 @@ const startedState = (pieces: BoardPiece[]): GameState => ({
 });
 
 const moveResult = (
-  overrides: Partial<Extract<ServerGameMessage, { type: "moveResult" }>> = {},
-): ServerGameMessage => ({
+  overrides: Partial<Extract<ServerMessage, { type: "moveResult" }>> = {},
+): ServerMessage => ({
   type: "moveResult",
   gameId: GAME_ID,
   from: { row: 5, col: 0 },
@@ -55,6 +55,11 @@ describe("gameReducer", () => {
       pieces: [{ id: "red-5-0", color: "red", row: 5, col: 0, isKing: false }],
       playerTurn: "red",
       playerColor: "red",
+      mode: "online",
+      players: {
+        red: { kind: "user", username: "player_one" },
+        black: { kind: "guest", name: "Opponent" },
+      },
       status: { state: "inProgress" },
     });
 
@@ -63,10 +68,18 @@ describe("gameReducer", () => {
     expect(next.turn).toBe("red");
     expect(next.playerColor).toBe("red");
     expect(next.status).toEqual({ state: "inProgress" });
+    expect(next.mode).toBe("online");
+    expect(next.players).toEqual({
+      red: { kind: "user", username: "player_one" },
+      black: { kind: "guest", name: "Opponent" },
+    });
   });
 
   it("moves the piece and passes the turn when a move result arrives", () => {
-    const state = startedState([piece("red-5-0", 5, 0), piece("black-2-1", 2, 1)]);
+    const state = startedState([
+      piece("red-5-0", 5, 0),
+      piece("black-2-1", 2, 1),
+    ]);
 
     const next = gameReducer(state, moveResult());
 
@@ -76,7 +89,10 @@ describe("gameReducer", () => {
   });
 
   it("marks captured pieces as jumped but keeps them until removePiece", () => {
-    const state = startedState([piece("red-5-0", 5, 0), piece("black-4-1", 4, 1)]);
+    const state = startedState([
+      piece("red-5-0", 5, 0),
+      piece("black-4-1", 4, 1),
+    ]);
 
     const afterJump = gameReducer(
       state,
@@ -98,7 +114,11 @@ describe("gameReducer", () => {
 
     const next = gameReducer(
       state,
-      moveResult({ from: { row: 1, col: 0 }, to: { row: 0, col: 1 }, kingId: "red-1-0" }),
+      moveResult({
+        from: { row: 1, col: 0 },
+        to: { row: 0, col: 1 },
+        kingId: "red-1-0",
+      }),
     );
 
     expect(next.pieces).toEqual([piece("red-1-0", 0, 1, { isKing: true })]);
@@ -109,7 +129,11 @@ describe("gameReducer", () => {
 
     const next = gameReducer(
       state,
-      moveResult({ to: { row: 3, col: 2 }, nextPlayerTurn: "red", jumpFrom: { row: 3, col: 2 } }),
+      moveResult({
+        to: { row: 3, col: 2 },
+        nextPlayerTurn: "red",
+        jumpFrom: { row: 3, col: 2 },
+      }),
     );
 
     expect(next.turn).toBe("red");
@@ -118,7 +142,7 @@ describe("gameReducer", () => {
 
   it("stores a rejection without changing the board or the turn", () => {
     const state = startedState([piece("red-5-0", 5, 0)]);
-    const rejection: ServerGameMessage = {
+    const rejection: ServerMessage = {
       type: "moveRejected",
       gameId: GAME_ID,
       from: { row: 5, col: 0 },
@@ -139,5 +163,24 @@ describe("gameReducer", () => {
     const next = gameReducer(state, moveResult({ gameId: OTHER_GAME_ID }));
 
     expect(next).toBe(state);
+  });
+
+  it("ignores lobby messages, with or without a game ID", () => {
+    const state = startedState([piece("red-5-0", 5, 0)]);
+
+    const afterAuth = gameReducer(state, {
+      type: "authenticated",
+      userId: "user-1",
+      username: "player_one",
+    });
+    // Same game ID, so this reaches the reducer's default case.
+    const afterInvite = gameReducer(state, {
+      type: "gameInvite",
+      gameId: GAME_ID,
+      fromUsername: "someone",
+    });
+
+    expect(afterAuth).toBe(state);
+    expect(afterInvite).toBe(state);
   });
 });
