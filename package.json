@@ -17,7 +17,8 @@
     "typecheck": "tsc --noEmit && vitest run"
   },
   "dependencies": {
-    "electron-updater": "^6.8.3"
+    "electron-updater": "^6.8.3",
+    "react-toastify": "^11.2.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
