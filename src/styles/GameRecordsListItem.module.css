@@ -1,0 +1,67 @@
+.row {
+    border-top: 1px solid rgb(148 163 184 / 0.35);
+
+    &:hover {
+        background: #f1f5f9;
+    }
+}
+
+.name {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    text-align: left;
+    max-width: 16rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.resultCell,
+.actionCell {
+    padding: 0.5rem 1rem;
+    text-align: center;
+}
+
+.badge {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.win {
+    background-color: #15803d;
+}
+
+.loss {
+    background-color: firebrick;
+}
+
+/* The shared button styles in CustomButton.module.css apply to every
+   <button>, so the size and shape are reset here. */
+.rewatch {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    border-radius: 50%;
+    background-color: purple;
+    font-size: 0.9rem;
+}
+
+/* Visually hidden, but still read by screen readers. */
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
