@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CheckerColor } from "checkers-shared-types";
 import CheckerBoard from "./components/CheckerBoard";
 import { useGame } from "./hooks/useGame";
 import { createFakeConnection } from "./game/fakeConnection";
 import UserAccessModal from "./components/UserAccessModal";
 import { loadSession } from "./sessions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import default styles
+
 
 const App = () => {
   const [session, setSession] = useState(loadSession);
@@ -19,6 +22,13 @@ const App = () => {
     game.controlledColor === "red" ? "black" : "red";
   const perspective = isFlipped ? opposite : game.controlledColor;
 
+  useEffect(() => {
+    toast("Welcome to Checkers - Presented by The Executive Branch", {
+      position: "bottom-center",
+      closeButton: false
+    });
+  }, [])
+
   return (
     <main
       style={{
@@ -28,10 +38,11 @@ const App = () => {
         justifyItems: "center",
       }}
     >
-      <UserAccessModal
+
+      {/*       <UserAccessModal
         isOpen={!session}
         onSuccess={() => setSession(loadSession())}
-      />
+      /> */}
 
       <section style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
         <button onClick={() => connection.setNextMove({ capture: true })}>
@@ -76,6 +87,7 @@ const App = () => {
         onMove={game.makeMove}
         onPieceRemoved={game.removePiece}
       />
+      <ToastContainer />
     </main>
   );
 };
