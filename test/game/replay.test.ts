@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import type { Move } from "checkers-shared-types";
 import { applyMove, buildReplay, ReplayError, startingPieces, turnAfter } from "@/game/replay";
-import { SAMPLE_RECORDS } from "@/game/sampleRecords";
+import { SAMPLE_RECORDS } from "../fixtures/sampleGame";
 
 const at = (row: number, col: number) => ({ row, col });
 
