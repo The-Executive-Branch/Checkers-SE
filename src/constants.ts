@@ -6,3 +6,6 @@ export const AUTH_ROUTES = {
   REGISTER: "/auth/register",
   USERNAME_AVAILABILITY: "/auth/username-available",
 } as const satisfies Record<string, AuthRoute>;
+export const GAME_ROUTES = {
+  LIST: "/games/list",
+} as const;

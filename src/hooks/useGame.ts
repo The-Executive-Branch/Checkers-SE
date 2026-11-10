@@ -26,5 +26,9 @@ export const useGame = (connection: GameConnection) => {
     dispatch({ type: "removePiece", id });
   };
 
-  return { ...state, isPlayerTurn, controlledColor, makeMove, removePiece };
+  const leaveGame = () => {
+    dispatch({ type: "leaveGame" });
+  };
+
+  return { ...state, isPlayerTurn, controlledColor, makeMove, removePiece, leaveGame };
 };

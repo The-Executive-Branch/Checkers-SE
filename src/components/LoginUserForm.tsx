@@ -75,8 +75,8 @@ const LoginUserForm = ({ onSuccess }: LoginUserFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <header>
+    <form onSubmit={handleSubmit} noValidate className={styles.form}>
+      <header className={styles.header}>
         <h1>Welcome back!</h1>
       </header>
       <fieldset disabled={isLoading} className={styles.fields}>
@@ -100,7 +100,7 @@ const LoginUserForm = ({ onSuccess }: LoginUserFormProps) => {
           required
         />
       </fieldset>
-      <footer>
+      <footer className={styles.footer}>
         <p className={styles["form-error"]} role="alert">
           {formError}
         </p>

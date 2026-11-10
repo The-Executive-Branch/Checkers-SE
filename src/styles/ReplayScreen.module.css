@@ -1,0 +1,103 @@
+/* Layout and seats come from GameScreen.module.css; this file only adds
+   what the replay has on top: the back button and the playback controls. */
+
+/* Leaves more room under the board for the controls. */
+.table {
+  --board-size: min(100%, calc(100dvh - 22rem), 40rem);
+}
+
+.topRow {
+  display: flex;
+}
+
+.back {
+  font: inherit;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--chalk);
+  box-shadow: inset 0 0 0 2px rgb(243 235 221 / 0.6);
+  cursor: pointer;
+}
+
+.back:hover {
+  background: rgb(243 235 221 / 0.1);
+}
+
+.problem {
+  margin: 2rem 0 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--square-light);
+  color: var(--red-shade);
+  font-weight: 700;
+  text-align: center;
+}
+
+.controls {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.scrubber {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Round black pieces, like the rewatch button on the records page. */
+.control {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--black);
+  color: var(--chalk);
+  font: inherit;
+  font-size: 1.1rem;
+  box-shadow: 0 3px 0 #000;
+  cursor: pointer;
+
+  &:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #000;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+/* The main button is wider and red, like the lobby's main action. */
+.play {
+  min-width: 6.5rem;
+  padding: 0 1.25rem;
+  background: var(--red);
+  box-shadow: 0 3px 0 var(--red-shade);
+  font-weight: 700;
+  font-size: 1rem;
+
+  &:active:not(:disabled) {
+    box-shadow: 0 1px 0 var(--red-shade);
+  }
+}
+
+.back:focus-visible,
+.control:focus-visible,
+.scrubber:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}

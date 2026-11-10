@@ -109,6 +109,14 @@ describe("gameReducer", () => {
     expect(afterRemoval.pieces.map((p) => p.id)).toEqual(["red-5-0"]);
   });
 
+  it("clears the game when the player leaves it", () => {
+    const state = startedState([piece("red-5-0", 5, 0)]);
+
+    const next = gameReducer(state, { type: "leaveGame" });
+
+    expect(next).toEqual(INITIAL_GAME_STATE);
+  });
+
   it("crowns the piece named in kingId", () => {
     const state = startedState([piece("red-1-0", 1, 0)]);
 

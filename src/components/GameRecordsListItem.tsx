@@ -1,4 +1,5 @@
-import type { CheckerColor, GameRecord, Player } from "checkers-shared-types";
+import type { CheckerColor, GameRecord } from "checkers-shared-types";
+import { nameOf, sideOf } from "../game/records";
 import styles from "../styles/GameRecordsListItem.module.css";
 
 type GameRecordsListItemProps = {
@@ -12,17 +13,6 @@ const RESULTS = {
     win: { letter: "W", label: "Win" },
     loss: { letter: "L", label: "Loss" },
 } as const;
-
-const nameOf = (player: Player) =>
-    player.kind === "user" ? player.username : player.name;
-
-// Guest games have no username to match, so "you" falls back to red.
-const sideOf = (record: GameRecord, username: string): CheckerColor => {
-    const { black } = record.players;
-    return black.kind === "user" && black.username === username
-        ? "black"
-        : "red";
-};
 
 // Renders one table row. It must be placed inside a <tbody>.
 const GameRecordsListItem = ({

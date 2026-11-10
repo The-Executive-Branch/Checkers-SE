@@ -1,4 +1,6 @@
-form {
+/* Class selectors only: plain "form", "header" and "footer" rules here
+   would leak into every form on every screen. */
+.form {
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -8,7 +10,7 @@ form {
   border-radius: 10px;
 }
 
-header {
+.header {
   text-align: center;
 
   h1 {
@@ -27,7 +29,7 @@ header {
   margin: 0;
 }
 
-footer {
+.footer {
   .form-error {
     color: red;
     text-align: center;

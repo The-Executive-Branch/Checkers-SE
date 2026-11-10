@@ -2,9 +2,14 @@
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
   grid-template-rows: repeat(8, minmax(0, 1fr));
-  width: min(90vmin, 640px);
+  /* A parent can set --board-size (see .table in GameScreen.module.css). */
+  width: var(--board-size, min(90vmin, 640px));
   aspect-ratio: 1;
-  border: 8px solid #5a3a1e;
+  box-sizing: border-box;
+  border: 0.75rem solid var(--frame, #5a3a1e);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1.25rem 2.5rem rgb(0 0 0 / 0.35);
 }
 
 .square {
@@ -26,7 +31,7 @@
   }
 
   &:focus-visible {
-    outline: 3px solid white;
+    outline: 3px solid var(--gold, gold);
     outline-offset: -3px;
   }
 }
@@ -37,9 +42,9 @@
 }
 
 .light {
-  background: #f0d9b5;
+  background: var(--square-light, #f0d9b5);
 }
 
 .dark {
-  background: #8b5a2b;
+  background: var(--square-dark, #8b5a2b);
 }
