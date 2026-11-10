@@ -1,0 +1,35 @@
+.frame {
+    overflow-x: auto;
+    border: 1px solid rgb(148 163 184 / 0.35);
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 1px 3px rgb(15 23 42 / 0.08);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+
+    & thead th {
+        padding: 0.75rem 1rem;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+}
+
+.left {
+    text-align: left;
+}
+
+.message {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    padding: 2rem 1rem;
+    color: #475569;
+    text-align: center;
+}
