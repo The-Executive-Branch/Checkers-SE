@@ -7,7 +7,11 @@
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: inset 0 -4px 0 rgb(0 0 0 / 0.35);
+  /* Same piece look as the lobby's title: a light rim and a dark lower edge. */
+  box-shadow:
+    inset 0 0 0 0.25rem rgb(255 255 255 / 0.12),
+    inset 0 -4px 0 rgb(0 0 0 / 0.35),
+    0 3px 0 rgb(0 0 0 / 0.3);
   transition: transform 150ms ease;
   padding: 0;
   min-width: 0;
@@ -18,27 +22,27 @@
   }
 
   &:focus-visible {
-    outline: 3px solid white;
+    outline: 3px solid var(--gold, gold);
     outline-offset: 2px;
   }
 }
 
 .red {
-  background: #c0392b;
+  background: var(--red, #c0392b);
 }
 .black {
-  background: #2b2b2b;
+  background: var(--black, #2b2b2b);
 }
 
 .selected {
   transform: translateY(-4px);
   box-shadow:
     inset 0 -4px 0 rgb(0 0 0 / 0.35),
-    0 0 0 3px gold;
+    0 0 0 3px var(--gold, gold);
 }
 
 .crown {
-  color: gold;
+  color: var(--gold, gold);
   font-size: 1.6em;
 }
 

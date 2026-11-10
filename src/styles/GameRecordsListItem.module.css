@@ -1,67 +1,98 @@
 .row {
-    border-top: 1px solid rgb(148 163 184 / 0.35);
+  border-top: 2px dotted rgb(139 90 43 / 0.45);
 
-    &:hover {
-        background: #f1f5f9;
-    }
+  &:hover {
+    background: rgb(139 90 43 / 0.08);
+  }
 }
 
 .name {
-    padding: 0.75rem 1rem;
-    font-weight: 600;
-    text-align: left;
-    max-width: 16rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  padding: 0.75rem;
+  font-weight: 700;
+  text-align: left;
+  max-width: min(14rem, 28vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .resultCell,
 .actionCell {
-    padding: 0.5rem 1rem;
-    text-align: center;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
 }
 
+/* Results are drawn as checker pieces: a gold piece for a win,
+   a plain wooden one for a loss. Red and black are left for player colors. */
 .badge {
-    display: inline-grid;
-    place-items: center;
-    width: 2.25rem;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    color: white;
-    font-size: 1.25rem;
-    font-weight: 700;
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  font-family: var(--display);
+  font-size: 1rem;
+  box-shadow:
+    inset 0 0 0 0.2rem rgb(255 255 255 / 0.2),
+    inset 0 -0.2rem 0 rgb(0 0 0 / 0.25),
+    0 3px 0 rgb(0 0 0 / 0.25);
 }
 
 .win {
-    background-color: #15803d;
+  background: var(--gold);
+  color: var(--ink);
 }
 
 .loss {
-    background-color: firebrick;
+  background: var(--square-dark);
+  color: var(--chalk);
 }
 
-/* The shared button styles in CustomButton.module.css apply to every
-   <button>, so the size and shape are reset here. */
+/* A black piece with a play symbol on it. */
 .rewatch {
-    display: inline-grid;
-    place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    min-width: 0;
-    min-height: 0;
-    padding: 0;
-    border-radius: 50%;
-    background-color: purple;
-    font-size: 0.9rem;
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--black);
+  color: var(--chalk);
+  font-size: 0.85rem;
+  box-shadow: 0 3px 0 #000;
+  cursor: pointer;
+
+  &:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #000;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
 }
 
 /* Visually hidden, but still read by screen readers. */
 .srOnly {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 30rem) {
+  .name,
+  .resultCell,
+  .actionCell {
+    padding-inline: 0.4rem;
+  }
 }

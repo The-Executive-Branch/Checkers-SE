@@ -50,7 +50,7 @@ describe("GameRecordsPage", () => {
         const onBack = vi.fn();
         renderPage({ onBack });
 
-        await userEvent.click(screen.getByRole("button", { name: "Back to game" }));
+        await userEvent.click(screen.getByRole("button", { name: "Back home" }));
 
         expect(onBack).toHaveBeenCalledTimes(1);
     });

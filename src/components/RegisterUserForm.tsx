@@ -83,10 +83,10 @@ const RegisterUserForm = ({ onSuccess }: RegisterUserFormProps) => {
     inputs.password.length && isPasswordValid
       ? setValidationMessage((prevState) => ({ ...prevState, password: "" }))
       : setValidationMessage((prevState) => ({
-          ...prevState,
-          password:
-            "Password must include uppercase and lowercase letters, a number, and a special character.",
-        }));
+        ...prevState,
+        password:
+          "Password must include uppercase and lowercase letters, a number, and a special character.",
+      }));
   };
 
   const doPasswordsMatch = inputs.password === inputs.confirmPassword;
@@ -215,8 +215,8 @@ const RegisterUserForm = ({ onSuccess }: RegisterUserFormProps) => {
   };
 
   return (
-    <form onSubmit={submitForm} noValidate>
-      <header>
+    <form onSubmit={submitForm} noValidate className={styles.form}>
+      <header className={styles.header}>
         <h1>We're happy you decided to join us!</h1>
       </header>
       <fieldset disabled={isLoading} className={styles.fields}>
@@ -265,7 +265,7 @@ const RegisterUserForm = ({ onSuccess }: RegisterUserFormProps) => {
           required
         />
       </fieldset>
-      <footer>
+      <footer className={styles.footer}>
         <p className={styles["form-error"]} role="alert">
           {formError}
         </p>

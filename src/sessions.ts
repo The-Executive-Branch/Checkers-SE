@@ -11,15 +11,15 @@ type Session = UserAccessResponse;
 
 type RequestResult<T> =
   | {
-      ok: true;
-      status: number;
-      data: T;
-    }
+    ok: true;
+    status: number;
+    data: T;
+  }
   | {
-      ok: false;
-      status: number;
-      data: ErrorResponse;
-    };
+    ok: false;
+    status: number;
+    data: ErrorResponse;
+  };
 
 const saveSession = (session: UserAccessResponse) => {
   localStorage.setItem("session", JSON.stringify(session));
@@ -52,7 +52,15 @@ const BASE_URL = import.meta.env.PROD
   ? import.meta.env.VITE_API_URL
   : "http://127.0.0.1:8000";
 
-export const request = async <T>(
+// POST with a JSON body. Used by the auth routes.
+export const request = <T>(url: string, body?: unknown) =>
+  send<T>("POST", url, body);
+
+// GET with no body. Used to load game records.
+export const get = <T>(url: string) => send<T>("GET", url);
+
+const send = async <T>(
+  method: "GET" | "POST",
   url: string,
   body?: unknown,
 ): Promise<RequestResult<T>> => {
@@ -65,8 +73,9 @@ export const request = async <T>(
   };
 
   const response = await fetch(BASE_URL + url, {
-    method: "POST",
-    body: JSON.stringify(body),
+    method,
+    // A GET request can't carry a body.
+    body: method === "GET" ? undefined : JSON.stringify(body),
     headers,
   });
 
@@ -121,5 +130,5 @@ export const logOut = async () => {
   }
 };
 
-const onAccessGranted = () => {};
-const onAccessRevoked = () => {};
+const onAccessGranted = () => { };
+const onAccessRevoked = () => { };

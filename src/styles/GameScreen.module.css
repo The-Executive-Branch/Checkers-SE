@@ -1,0 +1,181 @@
+/* The game screen: the same felt table as the lobby, with the board in
+   the middle and a seat for each player. Colors and fonts come from theme.css. */
+.page {
+  width: 100%;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  justify-self: stretch;
+  padding: clamp(1rem, 3vw, 2rem) 1rem 2rem;
+  background: radial-gradient(ellipse at 50% 0%, var(--felt) 0%, var(--felt-deep) 75%);
+  color: var(--chalk);
+  font-family: var(--body);
+  line-height: 1.5;
+}
+
+/* The board's size drives everything: it fits the window's width and
+   leaves room above and below it for the status and both seats. */
+.table {
+  --board-size: min(100%, calc(100dvh - 15rem), 40rem);
+
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+
+  & > * {
+    width: var(--board-size);
+    box-sizing: border-box;
+  }
+}
+
+/* ── Status ───────────────────────────────────────────── */
+
+.status {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--chalk);
+  text-shadow: 0 3px 0 var(--felt-deep);
+}
+
+.won {
+  color: var(--gold);
+}
+
+.boardArea {
+  position: relative;
+}
+
+.notice {
+  position: absolute;
+  z-index: 1;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 85%;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--square-light);
+  color: var(--red-shade);
+  font-weight: 700;
+  text-align: center;
+  box-shadow:
+    inset 0 0 0 2px var(--red),
+    0 0.5rem 1.5rem rgb(0 0 0 / 0.35);
+}
+
+.gameOver {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 0.75rem;
+  background: rgb(21 53 40 / 0.55);
+  animation: dim 400ms ease-out both;
+}
+
+/* Same red piece-shaped button as the lobby's main action. */
+.lobbyButton {
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--red-shade), 0 0.75rem 2rem rgb(0 0 0 / 0.4);
+  cursor: pointer;
+
+  &:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--red-shade);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+  }
+}
+
+@keyframes dim {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ── Seats ────────────────────────────────────────────── */
+
+.seat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.18);
+  box-shadow: inset 0 0 0 2px transparent;
+  transition: box-shadow 200ms ease, background 200ms ease;
+}
+
+/* A gold ring marks whose turn it is. */
+.active {
+  background: rgb(232 183 48 / 0.12);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+.chip {
+  flex: none;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 0.15rem rgb(255 255 255 / 0.12),
+    inset 0 -0.15rem 0 rgb(0 0 0 / 0.35),
+    0 2px 0 rgb(0 0 0 / 0.3);
+}
+
+.red {
+  background: var(--red);
+}
+
+.black {
+  background: var(--black);
+}
+
+.seatName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.empty {
+  font-weight: 400;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.seatColor {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seat {
+    transition: none;
+  }
+
+  .gameOver {
+    animation: none;
+  }
+}

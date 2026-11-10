@@ -24,7 +24,11 @@ export type GameState = {
   players: GameStateMessage["players"] | null;
 };
 
-export type GameAction = ServerMessage | { type: "removePiece"; id: string };
+export type GameAction =
+  | ServerMessage
+  | { type: "removePiece"; id: string }
+  // Leaving a finished game clears it, which takes the player back to the lobby.
+  | { type: "leaveGame" };
 
 export const INITIAL_GAME_STATE: GameState = {
   gameId: null,
@@ -45,6 +49,8 @@ export const gameReducer = (
   state: GameState,
   action: GameAction,
 ): GameState => {
+  if (action.type === "leaveGame") return INITIAL_GAME_STATE;
+
   if (action.type === "removePiece") {
     return {
       ...state,

@@ -1,5 +1,4 @@
 import type { GameRecord } from "checkers-shared-types";
-import CustomButton from "./CustomButton";
 import GameRecordsList from "./GameRecordsList";
 import styles from "../styles/GameRecordsPage.module.css";
 
@@ -18,12 +17,14 @@ const GameRecordsPage = ({ onBack, ...listProps }: GameRecordsPageProps) => {
     return (
         <main className={styles.page}>
             <header className={styles.header}>
-                <CustomButton variant="secondary" handleClick={onBack}>
-                    Back to game
-                </CustomButton>
+                <button type="button" className={styles.back} onClick={onBack}>
+                    Back home
+                </button>
                 <h1 className={styles.title}>Game Records</h1>
             </header>
-            <GameRecordsList {...listProps} />
+            <div className={styles.tray}>
+                <GameRecordsList {...listProps} />
+            </div>
         </main>
     );
 };
